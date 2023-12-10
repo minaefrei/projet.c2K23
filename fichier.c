@@ -3,7 +3,7 @@
 #include <stdint.h>
 #include <string.h>
 #include "fichier.h"
-//#include "timer.h"
+#include "timer.h"
 
 
 t_d_cell* createCell(uint64_t value, int level) {
@@ -63,6 +63,9 @@ void displayAllLevels(t_d_list list) {
 }
 
 void destroy_cell(t_d_cell* cell) {
+    for (int i = 0; i < cell->level; i++) {
+        free(cell->nexts[i]);
+    }
     free(cell->nexts);
     free(cell);
 }
@@ -82,10 +85,9 @@ void destroy_list(t_d_list* ls) {
 
 
 
-
 void insertOrdered(t_d_list *list, t_d_cell* cell) {
     t_d_cell* temp = NULL;
-    int i = cell->level - 1; // niveau spécifié pour l'insertion
+    int i = cell->level - 1;
 
     for (; i >= 0; --i) {
         if (list->heads[i] == NULL || list->heads[i]->value >= cell->value) {
@@ -101,6 +103,13 @@ void insertOrdered(t_d_list *list, t_d_cell* cell) {
         }
     }
 }
+
+
+
+
+
+
+
 
 
 // Partie 2
@@ -122,7 +131,7 @@ int searchLevel0(t_d_list list, uint64_t val) {
 
 
 int searchHLevels(t_d_list list, uint64_t val, int highLevel) {
-    if (highLevel < 0 || highLevel >= list.max_level) {
+    if (highLevel < 0 || highLevel > list.max_level) {
         printf("Niveau invalide\n");
         return 0;
     }
@@ -131,14 +140,14 @@ int searchHLevels(t_d_list list, uint64_t val, int highLevel) {
         t_d_cell* temp = list.heads[level];
         while (temp != NULL) {
             if (temp->value == val) {
-                printf("La valeur %lu a été trouvée au niveau %d\n", val, level);
+                printf(";))) la valeur %lu a été trouvée au niveau %d;)))\n", val, level);
                 return 1;
             }
             temp = temp->nexts[level];
         }
     }
 
-    printf("La valeur %lu n'a pas été trouvée\n", val);
+    printf(":((( la valeur %lu n'a pas été trouvée :(((\n", val);
     return 0;
 }
 
@@ -210,3 +219,4 @@ t_agenda *RechercherContact(t_agenda *agenda, char *nom_prenom) {
     }
     return NULL;
 }
+
