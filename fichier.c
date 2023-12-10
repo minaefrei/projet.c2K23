@@ -80,7 +80,6 @@ void destroy_list(t_d_list* ls) {
         }
     }
     free(ls->heads);
-    free(ls);
 }
 
 
@@ -105,13 +104,6 @@ void insertOrdered(t_d_list *list, t_d_cell* cell) {
 }
 
 
-
-
-
-
-
-
-
 // Partie 2
 
 int searchCellLevel0(t_d_cell* cell, uint64_t val) {
@@ -130,24 +122,19 @@ int searchLevel0(t_d_list list, uint64_t val) {
 }
 
 
-int searchHLevels(t_d_list list, uint64_t val, int highLevel) {
-    if (highLevel < 0 || highLevel > list.max_level) {
-        printf("Niveau invalide\n");
-        return 0;
-    }
-
-    for (int level = highLevel; level >= 0; level--) {
+int searchHLevels(t_d_list list, uint64_t val) {
+    for (int level = list.max_level; level >= 0; level--) {
         t_d_cell* temp = list.heads[level];
         while (temp != NULL) {
             if (temp->value == val) {
-                printf(";))) la valeur %lu a été trouvée au niveau %d;)))\n", val, level);
+                //printf(";))) la valeur %lu a été trouvée au niveau %d;)))\n", val, level);
                 return 1;
             }
             temp = temp->nexts[level];
         }
     }
 
-    printf(":((( la valeur %lu n'a pas été trouvée :(((\n", val);
+    //printf(":((( la valeur %lu n'a pas été trouvée :(((\n", val);
     return 0;
 }
 
@@ -219,4 +206,3 @@ t_agenda *RechercherContact(t_agenda *agenda, char *nom_prenom) {
     }
     return NULL;
 }
-
