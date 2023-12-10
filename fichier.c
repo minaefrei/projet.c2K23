@@ -127,14 +127,11 @@ int searchHLevels(t_d_list list, uint64_t val) {
         t_d_cell* temp = list.heads[level];
         while (temp != NULL) {
             if (temp->value == val) {
-                //printf(";))) la valeur %lu a été trouvée au niveau %d;)))\n", val, level);
                 return 1;
             }
             temp = temp->nexts[level];
         }
     }
-
-    //printf(":((( la valeur %lu n'a pas été trouvée :(((\n", val);
     return 0;
 }
 
