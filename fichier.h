@@ -34,7 +34,7 @@ void destroy_list(t_d_list*);
 
 int searchCellLevel0(t_d_cell*, uint64_t);
 int searchLevel0(t_d_list, uint64_t);
-int searchHLevels(t_d_list, uint64_t, int);
+int searchHLevels(t_d_list, uint64_t);
 
 
 // Partie 3
@@ -78,5 +78,6 @@ void PlannifierRendezVous(t_contact *contact, t_rendez_vous *rdv);
 void AfficherRendezVous(t_contact *contact);
 void InsererAgendaEntry(t_agenda **agenda, t_contact *contact);
 t_agenda *RechercherContact(t_agenda *agenda, char *nom_prenom);
+
 
 #endif
