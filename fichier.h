@@ -39,7 +39,6 @@ int searchHLevels(t_d_list, uint64_t, int);
 
 // Partie 3
 
-
 typedef struct {
     int jour;
     int mois;
@@ -79,8 +78,5 @@ void PlannifierRendezVous(t_contact *contact, t_rendez_vous *rdv);
 void AfficherRendezVous(t_contact *contact);
 void InsererAgendaEntry(t_agenda **agenda, t_contact *contact);
 t_agenda *RechercherContact(t_agenda *agenda, char *nom_prenom);
-
-
-
 
 #endif
