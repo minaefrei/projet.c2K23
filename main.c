@@ -1,47 +1,62 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdint.h>
+#include <string.h>
 #include "fichier.h"
-//#include "timer.h"
+#include "timer.h"
 
 
-int main() {
 
-    t_d_list list = createEmptyList(4);
-    printf("Liste après création :\n");
-    displayAllLevels(list);
-
-
-    insertOrdered(&list, createCell(91, 1));
-    insertOrdered(&list, createCell(67, 1));
-    insertOrdered(&list, createCell(88, 2));
-    insertOrdered(&list, createCell(22, 3));
-    insertOrdered(&list, createCell(5, 4));
-
-    displayAllLevels(list);
-
-
-    uint64_t val;
-    printf("Entrez une valeur à rechercher dans le niveau 0 : ");
-    scanf("%lu", &val);
-
-    int resultat = searchLevel0(list, val);
-
-    if (resultat != 0) {
-        printf("La valeur %lu a été trouvée dans le niveau.\n", val);
-    } else {
-        printf("La valeur %lu n'a pas été trouvée dans le niveau.\n", val);
+void freeStrings(char **time_lvl0, char **time_all_levels) {
+    if (*time_lvl0 != NULL) {
+        free(*time_lvl0);
+        *time_lvl0 = NULL;
     }
 
+    if (*time_all_levels != NULL) {
+        free(*time_all_levels);
+        *time_all_levels = NULL;
+    }
+}
 
-    searchHLevels(list, 67, 3);
+int main() {
+    FILE *log_file = fopen("log.txt", "w");
+    if (log_file == NULL) {
+        fprintf(stderr, "Erreur lors de l'ouverture du fichier log.txt\n");
+        return 1;
+    }
 
+    char format[] = "%d\t%s\t%s\n";
+    char *time_lvl0 = NULL;
+    char *time_all_levels = NULL;
 
+    for (int level = 7; level <= 16; level++) {
+        t_d_list list = createEmptyList(level);
 
+        for (int n = 1000; n <= 100000; n *= 10) {
+            startTimer();
+            for (int i = 0; i < n; ++i) {
+                uint64_t val = rand() % (uint64_t)-1;
+                searchLevel0(list, val);
+            }
+            stopTimer();
+            freeStrings(&time_lvl0, &time_all_levels);
+            time_lvl0 = getTimeAsString();
 
+            startTimer();
+            for (int i = 0; i < n; ++i) {
+                uint64_t val = rand() % (uint64_t)-1;
+                searchHLevels(list, val);
+            }
+            stopTimer();
+            freeStrings(&time_lvl0, &time_all_levels);
+            time_all_levels = getTimeAsString();
 
-    destroy_list(&list);
+            fprintf(log_file, format, level, time_lvl0, time_all_levels);
+        }
+    }
 
+    fclose(log_file);
 
     return 0;
 }
